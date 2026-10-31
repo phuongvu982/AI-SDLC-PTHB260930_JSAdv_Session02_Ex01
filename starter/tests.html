@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kết Quả Kiểm Thử API Rikkei Shop - JSAdv Session 02 Ex 01</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(22, 30, 49, 0.75);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --success: #10b981;
+      --success-bg: rgba(16, 185, 129, 0.12);
+      --success-border: rgba(16, 185, 129, 0.3);
+      --danger: #ef4444;
+      --danger-bg: rgba(239, 68, 68, 0.12);
+      --danger-border: rgba(239, 68, 68, 0.3);
+      --primary: #3b82f6;
+      --primary-bg: rgba(59, 130, 246, 0.15);
+      --border: #1e293b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.1) 0px, transparent 50%);
+      color: var(--text-main);
+      padding: 40px 20px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 28px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .header-badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 9999px;
+      background: var(--primary-bg);
+      color: #60a5fa;
+      border: 1px solid rgba(96, 165, 250, 0.25);
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 26px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+
+    .header-desc {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .header-desc code {
+      background: rgba(255, 255, 255, 0.08);
+      color: #93c5fd;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+    }
+
+    .student-tag {
+      font-size: 13px;
+      color: #cbd5e1;
+      background: var(--card-bg);
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+    }
+
+    .summary-box {
+      border-radius: 14px;
+      padding: 20px 24px;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      border: 1px solid;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s ease;
+    }
+
+    .summary-box.pass {
+      background: var(--success-bg);
+      border-color: var(--success-border);
+    }
+
+    .summary-box.fail {
+      background: var(--danger-bg);
+      border-color: var(--danger-border);
+    }
+
+    .summary-badge {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .summary-box.pass .summary-badge {
+      background: var(--success);
+      color: #ffffff;
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+    }
+
+    .summary-box.fail .summary-badge {
+      background: var(--danger);
+      color: #ffffff;
+      box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+    }
+
+    .summary-number {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .summary-box.pass .summary-number {
+      color: #34d399;
+    }
+
+    .summary-box.fail .summary-number {
+      color: #f87171;
+    }
+
+    .summary-sub {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .test-list-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding: 0 4px;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .test-results {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .test-item {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 16px 18px;
+      backdrop-filter: blur(8px);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .test-item:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255, 255, 255, 0.16);
+    }
+
+    .test-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .test-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 9px;
+      border-radius: 6px;
+      letter-spacing: 0.06em;
+      flex-shrink: 0;
+    }
+
+    .test-pass .test-badge {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      border: 1px solid rgba(52, 211, 153, 0.3);
+    }
+
+    .test-fail .test-badge {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      border: 1px solid rgba(248, 113, 113, 0.3);
+    }
+
+    .test-title {
+      font-size: 14px;
+      color: #e2e8f0;
+      line-height: 1.5;
+    }
+
+    .test-title strong {
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    .test-error {
+      margin-top: 10px;
+      padding: 10px 14px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: #fca5a5;
+      border-left: 3px solid var(--danger);
+      white-space: pre-wrap;
+    }
+
+    .quick-nav {
+      margin-top: 36px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-link {
+      color: #60a5fa;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .btn-link:hover {
+      color: #93c5fd;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <div class="header-badge">Rikkei Shop • JSAdv Session 02 • Ex 01</div>
+        <h1>Kết Quả Kiểm Thử Gọi API bằng fetch</h1>
+        <p class="header-desc">Kiểm thử tự động cho <code>buildQuery</code>, <code>getProducts</code>, <code>getProduct</code>, <code>getProductsPage</code>, <code>describePage</code></p>
+      </div>
+      <div class="student-tag">
+        <strong>Học viên:</strong> Vũ Ngọc Minh Phương<br>
+        <strong>Lớp:</strong> PTHB260930
+      </div>
+    </header>
+
+    <div id="test-summary" class="summary-box pass">
+      <div class="summary-badge">✓</div>
+      <div class="summary-text">
+        <div class="summary-number">Đang chạy kiểm thử...</div>
+        <div class="summary-sub">Đang thực thi 13 test case bất đồng bộ...</div>
+      </div>
+    </div>
+
+    <div class="test-list-header">
+      <span>Chi tiết danh sách test case</span>
+      <span id="timestamp">13 Test Cases (Bắt buộc 100%)</span>
+    </div>
+
+    <div id="test-results" class="test-results"></div>
+
+    <div class="quick-nav">
+      <a href="index.html" class="btn-link">← Quay lại Giao Diện Demo Rikkei Shop</a>
+      <span style="font-size: 12px; color: var(--text-muted);">Mô-đun REST API Fetch & URLSearchParams</span>
+    </div>
+  </div>
+
+  <!-- Nạp file thư viện, mock API, mã nguồn và bộ kiểm thử -->
+  <script src="mock-api.js"></script>
+  <script src="script.js"></script>
+  <script src="harness.js"></script>
+  <script src="tests.js"></script>
+</body>
+</html>
