@@ -91,7 +91,7 @@ function expect(actual) {
  * Thực thi toàn bộ bộ kiểm thử và cập nhật giao diện tests.html
  */
 async function runTests() {
-  const container = document.getElementById("test-results");
+  const container = typeof document !== "undefined" ? document.getElementById("test-results") : null;
   let passedCount = 0;
   const total = testSuite.length;
   const resultItems = [];
